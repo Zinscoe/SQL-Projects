@@ -1,0 +1,45 @@
+**This creates the table called FRIENDS and identifies the elements being stored in the table**
+CREATE TABLE friends (
+  id INTEGER,
+  name TEXT,
+  birthday DATE
+);
+
+**This inserts values into the FRIENDS table via VALUES**
+INSERT INTO friends (id, name, birthday)
+VALUES (1, 'Ororo Munroe', '1940-05-30');
+
+INSERT INTO friends (id, name, birthday)
+VALUES (2, 'Bobert Williams', '1990-01-12');
+
+INSERT INTO friends (id, name, birthday)
+VALUES (3, 'Scerty McLervin', '1991-03-21');
+
+**This UPDATES the FRIENDS table by (SET)ting the name for the value and identifying WHERE to put it by id**
+UPDATE friends
+SET name = 'Storm'
+WHERE id = 1;
+
+**This ALTER(s) the TABLE of FRIENDS and ADD(s) a new COLUMN and identifies it by email**
+ALTER TABLE friends
+ADD COLUMN email TEXT;
+
+**This UPDATE(s) the FRIENDS table and SET(s) the email to a specific value WHERE the id = 1**
+UPDATE friends
+SET email = 'storm@codecademy.com'
+WHERE id = 1;
+
+UPDATE friends
+SET email = 'bilbowiggums@gmail.com'
+WHERE id = 2;
+
+UPDATE friends
+SET email = 'scertymcscooter@hotmail.com'
+WHERE id = 3;
+
+**This DELETE(s) FROM the FRIENDS table where id = 1 and deletes all values in that row**
+DELETE FROM friends
+where id = 1;
+
+**This SELECT(s) all values FROM the FRIENDS table and displays all the values in the table**
+SELECT * FROM friends;
