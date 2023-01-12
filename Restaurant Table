@@ -1,0 +1,64 @@
+-- These are queries made within a pre-made SQL table called 'nomnom'
+
+
+-- Selects all from the nomnom table
+SELECT *
+FROM nomnom;
+
+-- Selects each neighborhood from nomnom table and even puts duplicate neighborhood names into one
+SELECT DISTINCT neighborhood
+FROM nomnom;
+
+-- Selects each cuisine from nomnom table and even puts duplicate cuisine names into one
+SELECT DISTINCT cuisine
+FROM nomnom;
+
+-- Selects all from nomnom table where the cuisine name is Chinese
+SELECT *
+FROM nomnom
+WHERE cuisine = 'Chinese';
+
+-- Selects all from nomnom table where the review is greater than or equal to 4
+SELECT *
+FROM nomnom
+WHERE review >= 4;
+
+-- Selects all from nomnom where the cuisine is Italian and the price is '$$$'
+SELECT *
+FROM nomnom
+WHERE cuisine = 'Italian'
+  AND price = '$$$';
+
+-- Selects all from nomnom table where the name has 'meatball' in it
+SELECT *
+FROM nomnom
+WHERE name LIKE '%meatball%';
+
+-- Selects all from nomnom table where neighborhood is 'Midtown' or neighborhood is 'Downtown' or neighborhood is 'Chinatown'
+SELECT *
+FROM nomnom
+WHERE neighborhood = 'Midtown'
+  OR neighborhood = 'Downtown'
+  OR neighborhood = 'Chinatown';
+
+-- Selects all from nomnom table where health has no value
+SELECT *
+FROM nomnom
+WHERE health IS NULL;
+
+-- Selects all from nomnom table where reviews are ordered by descending order with a limit of 10 results
+SELECT *
+FROM nomnom
+ORDER BY review DESC
+LIMIT 10;
+
+-- Selects name where there's a case of when the review is above a certain number then it depends on the rating that's left from the nomnom table
+SELECT name,
+  CASE
+    WHEN review > 4.5 THEN 'Extraordinary'
+    WHEN review > 4 THEN 'Excellent'
+    WHEN review > 3 THEN 'Good'
+    WHEN review > 2 THEN 'Fair'
+    ELSE 'Poor'
+  END AS 'Review'
+FROM nomnom;
