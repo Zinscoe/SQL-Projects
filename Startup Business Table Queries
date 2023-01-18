@@ -1,0 +1,59 @@
+## The following queries are being pulled from a STARTUPS table that was pre-made
+
+## This query SELECTS all categories FROM the startups table
+SELECT *
+FROM startups;
+
+## This query SELECTS the count of all FROM startups table
+SELECT COUNT(*)
+FROM startups;
+
+## This query SELECTS the sum of the valuation category FROM the startups table
+SELECT SUM(valuation)
+FROM startups;
+
+## This query SELECTS the max of the raised category FROM the startups table
+SELECT MAX(raised)
+FROM startups;
+
+## This query SELECTS the max of the raised category FROM the startups table WHERE the stage value is equal to 'Seed'
+SELECT MAX(raised)
+FROM startups
+WHERE stage = 'Seed';
+
+## This query SELECTS minimum value of the founded category FROM the startups table
+SELECT MIN(founded)
+FROM startups;
+
+## This query SELECTS the average value of the valuations category FROM the startups table
+SELECT AVG(valuation)
+FROM startups;
+
+## This query SELECTS every categories average valuation FROM the startups table GROUPED BY each category
+SELECT category, AVG(valuation)
+FROM startups
+GROUP BY category;
+
+## This query SELECTS every categories rounded to the 2nd decimal of the average valuation FROM the startups table GROUPED BY each category
+SELECT category, ROUND(AVG(valuation), 2)
+FROM startups
+GROUP BY category;
+
+## This query SELECTS every categories rounded to the 2nd decimal of the average valuation FROM the startups table GROUPED BY the 1st selection of category
+## that is ORDERED BY the rounded average valuation in a DESCENDING order
+SELECT category, ROUND(AVG(valuation), 2)
+FROM startups
+GROUP BY 1
+ORDER BY 2 DESC;
+
+## This query SELECTS every locations average amount of employees FROM startups table GROUPED BY each location
+SELECT location, AVG(employees)
+FROM startups
+GROUP BY location;
+
+## This query SELECTS each locations average amount of employees FROM the startups table GROUPED BY location HAVING each locations average amount of 
+## employees being above 500
+SELECT location, AVG(employees)
+FROM startups
+GROUP BY location
+HAVING AVG(employees) > 500;
