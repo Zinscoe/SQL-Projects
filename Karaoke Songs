@@ -1,3 +1,4 @@
+/* this creates a table called songs that has values made in the table */
 CREATE TABLE songs (
     id INTEGER PRIMARY KEY,
     title TEXT,
@@ -5,7 +6,8 @@ CREATE TABLE songs (
     mood TEXT,
     duration INTEGER,
     released INTEGER);
-    
+
+/* these insert data into the songs table with the values determined */
 INSERT INTO songs (title, artist, mood, duration, released)
     VALUES ("Bohemian Rhapsody", "Queen", "epic", 60, 1975);
 INSERT INTO songs (title, artist, mood, duration, released)
@@ -22,7 +24,12 @@ INSERT INTO songs (title, artist, mood, duration, released)
     VALUES ("Sweet Caroline", "Neil Diamond", "happy", 201, 1969);
 INSERT INTO songs (title, artist, mood, duration, released)
     VALUES ("Call me maybe", "Carly Rae Jepsen", "happy", 193, 2011);
-    
+
+/* this selects the titles from the songs table */
 SELECT title FROM songs;
+
+/* this selects titles of songs where the mood is equal to 'epic' or the released year of the song is after 1990 */
 SELECT title FROM songs WHERE mood = 'epic' OR released > 1990;
+
+/* this selects titles of songs where the mood is equal to 'epic' and the song was released after 1990 and the length of the song is shorter than 240 seconds, or 4 mins */
 SELECT title FROM songs WHERE mood = 'epic' AND released > 1990 AND duration < 240;
