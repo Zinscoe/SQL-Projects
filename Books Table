@@ -39,3 +39,6 @@ INSERT INTO books (author, title, words)
  
  /* this selects author, and total of the words as total_words, categories from the books table and groups them by the author then having total_words count greater than 1miliion
  SELECT author, TOTAL(words) AS total_words FROM books GROUP BY author HAVING total_words > 1000000;
+
+/* this selects author, and avgerage of words as avg_words, categories from the books table and groups them by authors that have avg_words more than 150,000 */
+SELECT author, AVG(words) AS avg_words FROM books GROUP BY author HAVING avg_words > 150000;
