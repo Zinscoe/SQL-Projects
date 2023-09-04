@@ -1,0 +1,269 @@
+/*
+
+Cleaning Data in SQL Queries
+Using SQL Server Management Studio
+*/
+
+-- Starting off by doing a little EDA of the columns, checking out the data, and figuring out where to start
+Select *
+From PortfolioProject.dbo.NashvilleHousing
+
+--------------------------------------------------------------------------------------------------------------------------
+
+-- Standardizing Date Format
+-- DateTime Format for SaleDate had a lot of unnecessary zeros in it that made the data long
+-- And harder to read, so I converted it to a different format to clean up the data
+
+--Started by updating the table and setting the SaleDate column to be converted from DateTime to Date
+Update NashvilleHousing
+SET SaleDate = CONVERT(Date,SaleDate)
+
+-- If that doesn't fix the issue, I created a new colum and then updated the table to set the new
+-- column to equal the converted Date format for the SaleDate column
+
+ALTER TABLE NashvilleHousing
+Add SaleDateConverted Date;
+
+Update NashvilleHousing
+SET SaleDateConverted = CONVERT(Date,SaleDate)
+
+
+ --------------------------------------------------------------------------------------------------------------------------
+
+-- Populating Property Address Data
+
+-- Started by populating Data that brought up all the Data from the PortfolioProjec table that
+-- had NULL values in the PropertyAddress column
+Select *
+From PortfolioProject.dbo.NashvilleHousing
+
+--After doing the NULL values in the PropertyAddress column, I commented out
+-- 'Where PropertyAddress is null' and ordered all the Data by order by ParcelID
+--Where PropertyAddress is null
+order by ParcelID
+
+
+-- Then I selected the Data columns of ParcelID & PropertyAddress from table a, ParcelID & PropertyAddress from table b
+-- then created a new column that would check if PropertyAddress of table a is null. If it is null, then it would assign the new colum
+-- PropertyAddress of table b's Data. if a.PropertyAddress isn't null, then the new column gets assigned a.PropertyAddress value
+Select a.ParcelID, a.PropertyAddress, b.ParcelID, b.PropertyAddress, ISNULL(a.PropertyAddress,b.PropertyAddress)
+From PortfolioProject.dbo.NashvilleHousing a
+JOIN PortfolioProject.dbo.NashvilleHousing b
+	on a.ParcelID = b.ParcelID
+	AND a.[UniqueID ] <> b.[UniqueID ]
+Where a.PropertyAddress is null
+
+-- This query Updates table a by setting the PropertyAddress value equal to the isnull function for PropertyAddress of table a and b
+-- and joins both tables where a.PropertyAddress is null
+Update a
+SET PropertyAddress = ISNULL(a.PropertyAddress,b.PropertyAddress)
+From PortfolioProject.dbo.NashvilleHousing a
+JOIN PortfolioProject.dbo.NashvilleHousing b
+	on a.ParcelID = b.ParcelID
+	AND a.[UniqueID ] <> b.[UniqueID ]
+Where a.PropertyAddress is null
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+-- Breaking out Address into Individual Columns (Address, City, State)
+
+-- This query selects all data from PropertyAddress column, and the commented out comments below show that
+-- the query also selected this data where the PropertyAddress was null, and where the query was ordered by
+-- ParcelID
+Select PropertyAddress
+From PortfolioProject.dbo.NashvilleHousing
+--Where PropertyAddress is null
+--order by ParcelID
+
+-- This query selects some data and puts those values into two different Address columns
+-- The first column statement gets a substring of the PropertyAddress value and starts at the 1st index
+-- of that value and starts at the CharIndex of the comma in the PropertyAddress value, and after that it goes back
+-- 1 index to get rid of the comma and assigns this as the Address column
+
+-- The second column does a substring of the PropertyAddress value but starts at the CharIndex of the comma in the
+-- PropertyAddress value and adds 1 to get rid of the comma, but also gets the length of the PropertyAddress and
+-- assigns that to the second Address column
+SELECT
+SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 ) as Address
+, SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress)) as Address
+
+From PortfolioProject.dbo.NashvilleHousing
+
+-- This alters the table and creates a new column of PropertySplitAddress
+ALTER TABLE NashvilleHousing
+Add PropertySplitAddress Nvarchar(255);
+
+-- This updates the table and sets the PropertySplitAddress to the first part of the select statement above
+Update NashvilleHousing
+SET PropertySplitAddress = SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 )
+
+-- This alters the table again adding another column of PropertySplitCity
+ALTER TABLE NashvilleHousing
+Add PropertySplitCity Nvarchar(255);
+
+-- This updates the table and sets the PropertySplitCity column to the second part of the select statement above
+Update NashvilleHousing
+SET PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress))
+
+
+
+-- This selects all of the data from the table to ensure all is done correctly
+Select *
+From PortfolioProject.dbo.NashvilleHousing
+
+
+
+-- This query selects all of the values for the OwnerAddress column in the table
+Select OwnerAddress
+From PortfolioProject.dbo.NashvilleHousing
+
+-- This query selects 3 different coolumns. First column does a parsename function that uses a replace function
+-- as the first column, and in this replace function it uses the OwnerAddress column as the value, looks for the
+-- first comma value and replaces it with the period value. Because the parsename function only looks for periods and
+-- stops at periods
+Select
+PARSENAME(REPLACE(OwnerAddress, ',', '.') , 3) -- this displays the street address
+,PARSENAME(REPLACE(OwnerAddress, ',', '.') , 2) -- this displays the city
+,PARSENAME(REPLACE(OwnerAddress, ',', '.') , 1) -- this displays the state
+From PortfolioProject.dbo.NashvilleHousing
+
+
+-- This alters the table and adds a new column of OwnerSplitAddress
+ALTER TABLE NashvilleHousing
+Add OwnerSplitAddress Nvarchar(255);
+
+-- This updates the table and sets the OwnerSplitAddress column equal to the parsename function above that
+-- displays the Street Address
+Update NashvilleHousing
+SET OwnerSplitAddress = PARSENAME(REPLACE(OwnerAddress, ',', '.') , 3)
+
+-- This alters the table and adds OwnerSplitCity column
+ALTER TABLE NashvilleHousing
+Add OwnerSplitCity Nvarchar(255);
+
+-- This updates the table and sets the OwnerSplitCity value equal to the second parsename function that
+-- displays the City of the address
+Update NashvilleHousing
+SET OwnerSplitCity = PARSENAME(REPLACE(OwnerAddress, ',', '.') , 2)
+
+-- This alters the table and adds OwnerSplitCity column
+ALTER TABLE NashvilleHousing
+Add OwnerSplitState Nvarchar(255);
+
+-- This updates the table and sets the OwnerSplitState equal to the parsename function that displays the
+-- state of the address
+Update NashvilleHousing
+SET OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',', '.') , 1)
+
+
+-- This query selects all of the data from the table to ensure all data is correct
+Select *
+From PortfolioProject.dbo.NashvilleHousing
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+-- Change Y and N to Yes and No in "Sold as Vacant" field
+
+-- This selects 2 columns, the first one returns Distinct values of the SoldAsVacant column, and the second
+-- column selects the Count of the SoldAsVacant column from the table and groups them by the SoldAsVacant column
+-- and also orders them by 2, the second column
+Select Distinct(SoldAsVacant), Count(SoldAsVacant)
+From PortfolioProject.dbo.NashvilleHousing
+Group by SoldAsVacant
+order by 2
+
+
+
+-- This selects the SoldAsVacant column, and then displays a case statement for the second column. In the second column,
+-- if SoldAsVacant equals 'Y' then it's changed to 'Yes', same thing if it equals to 'N' then it's assigned 'No'. This will
+-- display every row as well
+Select SoldAsVacant,
+  CASE When SoldAsVacant = 'Y' THEN 'Yes'
+	   When SoldAsVacant = 'N' THEN 'No'
+	   ELSE SoldAsVacant
+	   END
+From PortfolioProject.dbo.NashvilleHousing
+
+-- This updates the table by setting the SoldAsVacant column to the Case statement explained as above
+Update NashvilleHousing
+SET SoldAsVacant = CASE When SoldAsVacant = 'Y' THEN 'Yes'
+	   When SoldAsVacant = 'N' THEN 'No'
+	   ELSE SoldAsVacant
+	   END
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Remove Duplicates
+
+WITH RowNumCTE AS(
+Select *,
+	ROW_NUMBER() OVER (
+	PARTITION BY ParcelID,
+				 PropertyAddress,
+				 SalePrice,
+				 SaleDate,
+				 LegalReference
+				 ORDER BY
+					UniqueID
+					) row_num
+
+From PortfolioProject.dbo.NashvilleHousing
+--order by ParcelID
+)
+
+-- This selects all data from the RowNumCTE where the row_num is greater than 1 and ordered by PropertyAddress
+Select *
+From RowNumCTE
+Where row_num > 1
+Order by PropertyAddress
+
+
+-- This selects all data from the table
+Select *
+From PortfolioProject.dbo.NashvilleHousing
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+
+-- Delete Unused Columns
+
+
+-- this selects all data from the table
+Select *
+From PortfolioProject.dbo.NashvilleHousing
+
+-- this alters the table and drops the columns that are named from the table
+ALTER TABLE PortfolioProject.dbo.NashvilleHousing
+DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress, SaleDate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+
