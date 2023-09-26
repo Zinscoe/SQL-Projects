@@ -1,0 +1,45 @@
+-- This query JOIN two tables together for results. We name the Review table as 'r' and the Movie table as 'm' and join the two together on the Movie('m') table with its Primary Key of moviedID to Review('r') table Foreign Key of movieID.
+-- This then displays Movie table's title, and it's year. Then displays Reviews table AuthorName, Score, Comment, and Date.
+
+SELECT m.title, m.year, r.AuthorName, r.Score, r.Comment, r.Date 
+FROM Review AS r 
+JOIN Movie AS m 
+     ON m.movieId = r.movieId;
+
+-- This query does an INNER JOIN on bike_sales table with bike_models table ON the Primary Key of bikes_sales.Model equal to bike_models.Model attributes. 
+-- This INNER JOIN only displays rows of matching values of both tables, bike_sales and bike_models
+
+SELECT bike_sales.Trans_ID, bike_sales.Model, bike_sales.Sale_Price, bike_models.Cost
+FROM bike_sales
+INNER JOIN bike_models
+ON bike_sales.Model = bike_models.Model;
+
+-- This query does a FULL JOIN that joins bike_sales with bike_models ON bike_sales.Model equal to bike_models.Model attributes.
+-- FULL JOINs bring data from both tables together and if one table doesn't have any data for that cell, then the value is set as NULL.
+
+SELECT bike_sales.Trans_ID, bike_sales.Model, bike_sales.Sale_Price, bike_models.Cost
+FROM bike_sales
+FULL JOIN bike_models
+ON bike_sales.Model = bike_models.Model;
+
+-- This query does a RIGHT JOIN that joins both tables on the .Model attributes from each table.
+-- RIGHT JOINs bring all data from the right table, which is bike_models in this case, and returns NULL for
+-- values in the left table of bike_sales where they aren't matching.
+
+SELECT bike_sales.Trans_ID, bike_sales.Model, bike_sales.Sale_Price, bike_models.Cost
+FROM bike_sales
+RIGHT JOIN bike_models
+ON bike_sales.Model = bike_models.Model;
+
+-- LEFT JOINs, like the one shown below, do the same thing as a RIGHT JOIN, but it brings all data from the left table
+-- and gives NULL to the values of the right table that don't have values.
+
+SELECT bike_sales.Trans_ID, bike_sales.Model, bike_sales.Sale_Price, bike_models.Cost
+FROM bike_sales
+LEFT JOIN bike_models
+ON bike_sales.Model = bike_models.Model;
+
+-- This query does a NATURAL JOIN which is when column(s) are common in both tables
+SELECT bike_sales.Trans_ID, bike_sales.Model, bike_sales.Sale_Price, bike_models.Cost
+FROM bike_sales
+NATURAL JOIN bike_models;
