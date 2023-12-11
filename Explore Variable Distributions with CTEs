@@ -1,0 +1,23 @@
+-- Created a CTE named email_link_clicks that pulls a SELECT statement that
+-- gets the UserID, and the count of how many times they clicked on a link
+with email_link_clicks as (
+SELECT
+  userid,
+  count(*) AS num_link_clicks
+FROM
+  frontendeventlog AS el
+WHERE
+  eventid = 5
+GROUP BY
+  userid
+)
+
+-- Then created a SELECT statement that gets the number of link clicks and
+-- the count of Users that clicked each link  from the CTE
+SELECT
+  num_link_clicks,
+  count(*) AS num_users
+FROM
+  email_link_clicks
+GROUP BY
+  num_link_clicks
