@@ -1,0 +1,26 @@
+-- this query selects gender and average of age from the employee_demographics table and groups it by gender
+SELECT gender, AVG(age)
+FROM employee_demographics
+GROUP BY gender
+;
+
+-- this query doesn't work because the where clause doesn't work on aggregrated functions such as average function
+SELECT gender, AVG(age)
+FROM employee_demographics
+WHERE AVG(age) > 40
+GROUP BY gender
+;
+
+-- this query selects the gender, and average age from the employee_demographics table and groups it by gender and having average age of greater than 40
+SELECT gender, AVG(age)
+FROM employee_demographics
+GROUP BY gender
+HAVING AVG(age) > 40
+;
+
+-- this query selects the same query as above but it adds and alias to AVG(age) as AVG_age
+SELECT gender, AVG(age) as AVG_age
+FROM employee_demographics
+GROUP BY gender
+HAVING AVG_age > 40
+;
