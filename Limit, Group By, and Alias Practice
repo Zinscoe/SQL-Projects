@@ -1,0 +1,51 @@
+-- this query selects all rows of each column from the employee_demographics table but limits the results to the top 3
+SELECT *
+FROM employee_demographics
+LIMIT 3;
+
+
+/*
+this query selects all rows of each column from the employee_demographics table and orders it by first_name and limits the results
+to the top 3
+*/
+SELECT *
+FROM employee_demographics
+ORDER BY first_name
+LIMIT 3;
+
+-- this query selects all rows of each column from the employee_demographics table and orders the results by first_name
+SELECT *
+FROM employee_demographics
+ORDER BY first_name;
+
+/*
+this query selects all rows of each column from the employee_demographics table and orders it by the first_name column
+and only shows the top 4th and 5th rows with the limit section
+*/
+SELECT *
+FROM employee_demographics
+ORDER BY first_name
+LIMIT 3,2;
+
+-- this query selects all rows and columns from the employee_demographics table and orders it by age descending
+SELECT *
+FROM employee_demographics
+ORDER BY age desc;
+
+-- this query selects all the rows of the columns from the employee_demographics table and orders it by age descending and limits it to the 3rd selection of the limit clause
+SELECT *
+FROM employee_demographics
+ORDER BY age desc
+LIMIT 2,1;
+
+-- this query selects the rows for the gender, and the average age of the genders from the employee_demographics table and groups it by gender
+SELECT gender, AVG(age)
+FROM employee_demographics
+GROUP BY gender
+;
+
+-- this query selects the gender, and the average age and Aliases the average age as Avg_age from the employee_demographics table and groups it by gender
+SELECT gender, AVG(age) AS Avg_age
+FROM employee_demographics
+GROUP BY gender
+;
