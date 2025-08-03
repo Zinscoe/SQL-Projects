@@ -1,0 +1,74 @@
+-- this query selects all rows and columns in the employee_demographics table
+SELECT *
+FROM employee_demographics;
+
+-- this query selects all the rows of the 'gender' column from the employee_demographics and groups them by gender
+SELECT gender
+FROM employee_demographics
+GROUP BY gender
+;
+
+-- this query selects all the rows of the first_name column from the employee_demographics table and groups them by gender
+SELECT first_name
+FROM employee_demographics
+GROUP BY gender
+;
+
+
+-- this query selects all the rows of the occupation column from the employee_salary table and groups them by occupation
+SELECT occupation
+FROM employee_salary
+GROUP BY occupation
+;
+
+-- this query selects all the rows of the occupation and salary columns from the employee_salary table and groups them by the occupation and then salary columns
+SELECT occupation, salary
+FROM employee_salary
+GROUP BY occupation, salary
+;
+
+-- this query selects all the gender rows and columns and gives the average age of each column from the employee_demographics table and groups it by the gender
+SELECT gender, AVG(age)
+FROM employee_demographics
+GROUP BY gender
+;
+
+-- this query selects the gender, minimum age, maximum age, count of age, and average age of each gender from the
+SELECT gender, MIN(age), MAX(age), COUNT(age),AVG(age)
+FROM employee_demographics
+GROUP BY gender
+;
+
+-- this query selects all rows of each column from the customers table and orders it by first_name column
+SELECT *
+FROM customers
+ORDER BY first_name;
+
+-- this query selects all rows from each column from the employee_demographics table
+SELECT *
+FROM employee_demographics;
+
+-- this query selects all rows from the columns from the employee_demographics table and orders it by the first_name column
+SELECT *
+FROM employee_demographics
+ORDER BY first_name;
+
+-- this query selects all the rows and columns from the employee_demographics table and orders it by first_name column descending
+SELECT *
+FROM employee_demographics
+ORDER BY first_name DESC;
+
+-- this query selects all the rows and columns from the employee_demographics table and orders it by gender and then age
+SELECT *
+FROM employee_demographics
+ORDER BY gender, age;
+
+-- this query selects all the rows and columns from the employee_demographics table and orders it by gender descending and then age descending
+SELECT *
+FROM employee_demographics
+ORDER BY gender DESC, age DESC;
+
+
+SELECT *
+FROM employee_demographics
+ORDER BY 5 DESC, 4 DESC;
