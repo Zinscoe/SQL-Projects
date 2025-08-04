@@ -1,0 +1,39 @@
+-- this query selects all rows for each column from the employee_salary table where salary is greater than 50000
+SELECT *
+FROM employee_salary
+WHERE salary > 50000;
+
+-- this query selects all rows for each column from the employee_salary table where salary is greater than or equal to 50000
+SELECT *
+FROM employee_salary
+WHERE salary >= 50000;
+
+-- this query selects all rows and columns from the employee_demographics table where the gender column equals Female
+SELECT *
+FROM employee_demographics
+WHERE gender = 'Female';
+
+-- this query selects all rows and columns from the employee_demographics table where the gender column equals Female
+SELECT *
+FROM employee_demographics
+WHERE gender != 'Female';
+
+-- this query selects all rows and columns from the employee_demographics table where the birth_date is greater than 1985-01-01
+SELECT *
+FROM employee_demographics
+WHERE birth_date > '1985-01-01';
+
+-- this query selects all from the employee_demographics table where first_name column is like a% which starts with 'a'
+SELECT *
+FROM employee_demographics
+WHERE first_name LIKE 'a%';
+
+-- this query selects all from the employee_demographics table where first_name is like a__ where the _ means an extra letter
+SELECT *
+FROM employee_demographics
+WHERE first_name LIKE 'a__';
+
+-- this query selects all from the employee_demographics table where first_name is like a__ where the _ means an extra letter and follows with whatever after the % sign
+SELECT *
+FROM employee_demographics
+WHERE first_name LIKE 'a___%';
